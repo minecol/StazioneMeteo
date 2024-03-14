@@ -7,6 +7,7 @@ Questo progetto consiste in uno script Python per un Raspberry Pi che trasforma 
 * Archiviazione dei dati: Salva i dati su file per analisi future.
 
 # TO-DO codice
+- [ ] Per utilizzare lo script è necessario il possesso del sensore e delle librerie, gestire l'avvio di una versione di debug che lancia numeri randomici senza utilizzare ed importare le librerie del sensore così da poter provare il codice in autonomia
 - [ ] La prima misura ad ogni riavvio mostra sempre dati errati, bisogna ignorarla
 - [ ] La stazione in rete potrebbe inviare direttamente i dati in un google sheet (o in una coda mqtt) al posto di inserirli in un file locale
 - [ ] Il dato inserito nel file utilizza troppe cifre decimali, va vista la percentuale di errore sulla misura ed utilizzare solo le cifre significative
