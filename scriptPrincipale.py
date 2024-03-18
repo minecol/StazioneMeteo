@@ -32,6 +32,11 @@ datafile = open(name_datafile, "w")
 field_names = ['Data;', 'Temperatura (°C);', 'Pressione (hPa);', 'Umidità (%);']
 datafile.writelines(field_names)
 
+temperature = bme280.get_temperature()
+pressure = bme280.get_pressure()
+humidity = bme280.get_humidity()
+time.sleep(3)
+
 while True:
     x = datetime.datetime.now()
     temperature = bme280.get_temperature()
