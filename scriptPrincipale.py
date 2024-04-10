@@ -25,7 +25,7 @@ Press Ctrl+C to exit!
 bus = SMBus(1)
 bme280 = BME280(i2c_dev=bus)
 
-name_datafile = 'data_' + str(datetime.datetime.now()) + '.txt'
+name_datafile = 'data_' + datetime.datetime.now().strftime("%Y-%m-%dh%Hm%Ms%Sms%f") + '.txt'
 
 datafile = open(name_datafile, "w")
 
