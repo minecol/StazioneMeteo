@@ -1,6 +1,10 @@
 import time
 import csv
 from bme280 import BME280
+import ltr559
+from enviroplus import gas
+from pms5003 import PMS5003
+pms5003 = PMS5003()
 
 try:
     from smbus2 import SMBus
@@ -29,12 +33,16 @@ name_datafile = 'data_' + datetime.datetime.now().strftime("%Y-%m-%dh%Hm%Ms%Sms%
 
 datafile = open(name_datafile, "w")
 
-field_names = ['Data;', 'Temperatura (°C);', 'Pressione (hPa);', 'Umidità (%);']
+field_names = ['Data;', 'Temperatura (°C);', 'Pressione (hPa);', 'Umidità (%);','Intensità Luminosa(Lm)''Prossimità','Gas','Particolato(ug)']
 datafile.writelines(field_names)
 
 temperature = bme280.get_temperature()
 pressure = bme280.get_pressure()
 humidity = bme280.get_humidity()
+lux = ltr559.get_lux()
+    proximity = ltr559.get_proximity()
+    gasensor = gas.read_all()
+    particulate = pms5003.read()
 time.sleep(3)
 
 while True:
@@ -42,9 +50,15 @@ while True:
     temperature = bme280.get_temperature()
     pressure = bme280.get_pressure()
     humidity = bme280.get_humidity()
-    logging.info("""\n Temperature: {:05.2f} *C \n Pressure: {:05.2f} hPa \n Relative humidity: {:05.2f} % """.format(temperature, pressure, humidity))
+    lux = ltr559.get_lux()
+    proximity = ltr559.get_proximity()
+    gasensor = gas.read_all()
+    particulate = pms5003.read()
+
+    logging.info("""\n Temperature: {:05.2f} *C \n Pressure: {:05.2f} hPa \n Relative humidity: {:05.2f} % \n Lux: {:05.2f}Lm \n Particulate: {:05.2f} ug """.format(temperature, pressure, humidity,lux, particulate))
     datafile.write('\n')
-    datafile.write(str(x)+';'+str(temperature)+';'+str(pressure)+';'+str(humidity))
+
+    datafile.write(str(x)+';'+str(temperature)+';'+str(pressure)+';'+str(humidity)+';'+str(lux)+';'+str(particulate)+';'+str(proximity)+';'+str(gasensor))
     datafile.close()
     time.sleep(900) #valore in secondi, 1800 per registrare i dati ogni 30 minuti
     datafile = open(name_datafile, "a")
